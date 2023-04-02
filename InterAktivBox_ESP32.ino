@@ -1,5 +1,5 @@
 /*
-DUISentrieb Soundbox triggerd by motion and distance, Power OFF Ledge 
+DUISentrieb Soundbox triggerd by motion and distance, Power ON/OFF latch
 Author: Pan0rama 
 Date: 16/12/2022
 Hardware: 
