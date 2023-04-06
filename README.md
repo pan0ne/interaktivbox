@@ -11,7 +11,7 @@
 - Latch Modul [KY002](http://www.icstation.com/single-button-bistable-switch-module-flip-flop-latch-falling-edge-trigger-switch-ky002-p-9309.html)
 - [Speaker 8 Ohm](https://eckstein-shop.de/Speaker-8-Ohm-05W-50mm-Lautsprecher-fuer-jedes-Audioprojekt)
 - Kabel
-- 2x 18650 LiPo Batterien
+- 1x 18650 LiPo Batterien + [Batterieboard](https://www.segor.de/INFO/weitere-produkte/389-18650-battery-shield.shtml)
 
 ### Programmierumgebung
 
