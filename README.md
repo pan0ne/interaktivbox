@@ -1,7 +1,7 @@
 # InterAktivBox
-Sensorgesteuerter Audioplayer spielt Audiodateien ab wenn sich Personen in der Nähe befinden
+## Sensorgesteuerter Audioplayer 
 
-*Elektronische Bauteile:*
+### Elektronische Bauteile
 
 - ESP32-Wroom-32
 - AMP Modul [GF1002](https://naltronic.de/business-industrie/elektronik-messtechnik/elektronische-bauelemente/halbleiter-aktive-elemente/platinen-entwicklungskits/357/pam8403-digitale-verstaerkerplatine-gf1002-2x3-watt-5vdc)
@@ -13,17 +13,17 @@ Sensorgesteuerter Audioplayer spielt Audiodateien ab wenn sich Personen in der N
 - Kabel
 - 2x 18650 LiPo Batterien
 
-*Programmierumgebung:*
+### Programmierumgebung
 
 - Arduino IDE
 
-*Bibliotheken:*
+### Bibliotheken
 
 - https://github.com/salvadorrueda/SerialMP3Player
 - https://github.com/ncmreynolds/ld2410
 - https://github.com/plerup/espsoftwareserial
 
-*Funktionsweise:*
+### Funktionsweise
 
 Die InteraktivBox soll Personen die an ihr vorbeilaufen Geschichten von Menschen erzählen, die aus Kriegsgebieten geflohen sind. Ein ESP32 steuert das Abspielen von Audiodaten im MP3 Format, welche bei Erkennung von Bewegung automatisch und in zufälliger Reihenfolge abgespielt werden. Wird keine Bewegung durch Personen erkannt, wird der Abspielprozess gestoppt und das Latch Modul (KY002) schaltet den MP3 Player, das Verstärkermodul und den Radarsensor aus um Energie zu sparen. Der ESP32 geht danach in den DeepSleep Modus. Der PIR Bewgungssensor weckt die MCU im Bedarfsfall wieder auf.
 Der Radarsensor eigenet sich für diese Projekt insofern, als das dieser auch Personen erkennt, wenn diese sich nicht bewegen.  Ein Vorteil, den ein normaler PIR Bewegungssensor nicht hat. Dadurch bleibt der Abspielprozess bestehen wenn eine Person vor der InterAktivbox steht sich aber nicht bewegt.
