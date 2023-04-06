@@ -7,11 +7,11 @@ Hardware:
 - PIR AM312 Motion Sensor (PIN 34)
 - YX5300 UART MP3 Module (TX = 12 RX = 14)
 - LD4060 Radar Sensort Sensor (RX2 = 16 , TX2 = 17)
-- Mosfet Module (Pin 4)
+- Latch Switch Module (Pin 23)
 */
 
 #include "SerialMP3Player.h"
-#include <ld2410.h>
+#include <ld2410.h>             //https://github.com/ncmreynolds/ld2410
 //RTC_DATA_ATTR int bootCount = 0;
 
 ld2410 radar;
@@ -28,10 +28,7 @@ int pirSensor = 34;              // the pin that the sensor is atteched to
 int state = LOW;             // by default, no motion detected
 int val = 0;                 // variable to store the sensor status (value)
 
-const int mp3PowerSwitchPin = 2;
-const int ampPowerSwitchPin = 4;
-const int radarPowerSwitchPin = 15;
-
+const int latchPowerPin = 23;
 
 #define TX 12
 #define RX 14
@@ -41,14 +38,8 @@ SerialMP3Player mp3(RX,TX);
 void setup() {
   Serial.begin(115200); //Feedback over Serial Monitor  
   pinMode(pirSensor, INPUT);    // initialize sensor as an input
-  pinMode (mp3PowerSwitchPin, OUTPUT);
-  pinMode (ampPowerSwitchPin, OUTPUT);
-  pinMode (radarPowerSwitchPin, OUTPUT);
-
-  digitalWrite (mp3PowerSwitchPin, LOW);
-  digitalWrite (ampPowerSwitchPin, HIGH);
-  digitalWrite (radarPowerSwitchPin, LOW);
-  
+  pinMode (latchPowerPin, OUTPUT);
+  digitalWrite (latchPowerPin, HIGH);
   delay(2000);             // wait for init
   
   //++bootCount; //Increment boot number and print it every reboot
@@ -94,7 +85,7 @@ void loop(){
         mp3.wakeup();
         if(playActive == 0)
         {
-          digitalWrite (ampPowerSwitchPin, LOW);
+          digitalWrite (latchPowerPin, HIGH);
           Serial.print(F("Play Track: "));
           Serial.println(activeTrack);
            mp3.setVol(25);                   
@@ -109,15 +100,13 @@ void loop(){
         activeTrack = random(1, 4);                                              
         Serial.println(F("No target"));
         mp3.sleep();
-        digitalWrite (ampPowerSwitchPin, HIGH);
+        digitalWrite (latchPowerPin, HIGH);
         
         if (radarPresence == 0 && pirMotion == 0 && playActive == 0){
           Serial.println(F("DeepSleep aktive..."));
-          digitalWrite (ampPowerSwitchPin, HIGH);
-          digitalWrite (mp3PowerSwitchPin, HIGH);
-          digitalWrite (radarPowerSwitchPin, HIGH);
-          //Serial.flush();
-          //esp_deep_sleep_start();
+          digitalWrite (latchPowerPin, LOW);
+          Serial.flush();
+          esp_deep_sleep_start();
         }
       }              
     } // end millis
