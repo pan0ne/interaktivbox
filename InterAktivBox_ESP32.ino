@@ -22,9 +22,10 @@ int playActive = 0;
 int activeTrack;
 int playedTrack;
 
-int pirMotion;
+const int motionPin =34;
+int pirState = LOW;
+
 int radarPresence;
-int pirSensor = 34;              // the pin that the sensor is atteched to
 int state = LOW;             // by default, no motion detected
 int val = 0;                 // variable to store the sensor status (value)
 
@@ -37,9 +38,9 @@ SerialMP3Player mp3(RX,TX);
 
 void setup() {
   Serial.begin(115200); //Feedback over Serial Monitor  
-  pinMode(pirSensor, INPUT);    // initialize sensor as an input
+  pinMode(motionPin, INPUT);     
   pinMode (latchPowerPin, OUTPUT);
-  digitalWrite (latchPowerPin, HIGH);
+  digitalWrite (latchPowerPin, LOW);
   delay(2000);             // wait for init
   
   //++bootCount; //Increment boot number and print it every reboot
@@ -54,7 +55,7 @@ void setup() {
   delay(500);             // wait for init
   
   //if(radarPowerSwitchPin == LOW){
-    //radar.debug(Serial); //Uncomment to show debug information from the library on the Serial Monitor. By default this does not show sensor reads as they are very frequent.
+    radar.debug(Serial); //Uncomment to show debug information from the library on the Serial Monitor. By default this does not show sensor reads as they are very frequent.
     Serial1.begin (256000, SERIAL_8N1, 17, 16); //UART for monitoring the radar
     delay(500);
     Serial.println(F("\nLD2410 radar sensor initialising: "));
@@ -67,25 +68,39 @@ void setup() {
           Serial.println(F("not connected"));
         } 
   //}
-  //Serial.println(esp_sleep_enable_ext0_wakeup(GPIO_NUM_34, 1)); //1 = High, 0 = Low
+  Serial.println(esp_sleep_enable_ext0_wakeup(GPIO_NUM_34, 1)); //1 = High, 0 = Low
 }
 
 void loop(){
-  
+
   radar.read();
-    
+ if (digitalRead(motionPin) == HIGH) {
+    if (pirState == LOW) {
+      Serial.println("Bewegung erkannt");
+      pirState = HIGH;
+      digitalWrite (latchPowerPin, LOW);
+
+    }
+  } else {
+    if (pirState == HIGH){
+      Serial.println("Keine Bewegung");
+      pirState = LOW;
+      digitalWrite (latchPowerPin, HIGH);
+
+    }
+  }   
     if(radar.isConnected() && millis() - lastReading > 500)  //Report every 1000ms
     {
       lastReading = millis();
       
       if(radar.presenceDetected())
       { 
-        Serial.println(F("Bewegung registriert"));
+        Serial.println(F("Radar Bewegung registriert"));
         radarPresence = radar.presenceDetected();
         mp3.wakeup();
         if(playActive == 0)
         {
-          digitalWrite (latchPowerPin, HIGH);
+          digitalWrite (latchPowerPin, LOW);
           Serial.print(F("Play Track: "));
           Serial.println(activeTrack);
            mp3.setVol(25);                   
@@ -102,9 +117,9 @@ void loop(){
         mp3.sleep();
         digitalWrite (latchPowerPin, HIGH);
         
-        if (radarPresence == 0 && pirMotion == 0 && playActive == 0){
+        if (radarPresence == 0 && pirState == 0 && playActive == 0){
           Serial.println(F("DeepSleep aktive..."));
-          digitalWrite (latchPowerPin, LOW);
+          digitalWrite (latchPowerPin, HIGH);
           Serial.flush();
           esp_deep_sleep_start();
         }
