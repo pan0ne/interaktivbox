@@ -55,7 +55,7 @@ void setup() {
   delay(500);             // wait for init
   
   //if(radarPowerSwitchPin == LOW){
-    radar.debug(Serial); //Uncomment to show debug information from the library on the Serial Monitor. By default this does not show sensor reads as they are very frequent.
+    //radar.debug(Serial); //Uncomment to show debug information from the library on the Serial Monitor. By default this does not show sensor reads as they are very frequent.
     Serial1.begin (256000, SERIAL_8N1, 17, 16); //UART for monitoring the radar
     delay(500);
     Serial.println(F("\nLD2410 radar sensor initialising: "));
@@ -100,7 +100,6 @@ void loop(){
         mp3.wakeup();
         if(playActive == 0)
         {
-          digitalWrite (latchPowerPin, LOW);
           Serial.print(F("Play Track: "));
           Serial.println(activeTrack);
            mp3.setVol(25);                   
@@ -114,8 +113,8 @@ void loop(){
         playActive = 0;
         activeTrack = random(1, 4);                                              
         Serial.println(F("No target"));
-        mp3.sleep();
-        digitalWrite (latchPowerPin, HIGH);
+        mp3.sleep();        
+        digitalWrite (latchPowerPin, LOW);
         
         if (radarPresence == 0 && pirState == 0 && playActive == 0){
           Serial.println(F("DeepSleep aktive..."));
