@@ -26,7 +26,7 @@
 
 ### Funktionsweise
 
-Die InteraktivBox soll Personen die an ihr vorbeilaufen Geschichten von Menschen erzählen, die aus Kriegsgebieten geflohen sind. Ein ESP32 steuert das Abspielen von Audiodaten im MP3 Format, welche bei Erkennung von Bewegung automatisch und in zufälliger Reihenfolge abgespielt werden. Wird keine Bewegung durch Personen erkannt, wird der Abspielprozess gestoppt und das Latch Modul (KY002) schaltet den MP3 Player, das Verstärkermodul und den Radarsensor aus um Energie zu sparen. Der ESP32 geht danach in den DeepSleep Modus. Der PIR Bewgungssensor weckt die MCU im Bedarfsfall wieder auf.
+Die InteraktivBox soll Personen, die an ihr vorbei laufen, Geschichten von Menschen erzählen die aus Kriegsgebieten geflohen sind. Ein ESP32 steuert das Abspielen von Audiodaten im MP3 Format, welche bei Erkennung von Bewegung automatisch und in zufälliger Reihenfolge abgespielt werden. Wird keine Bewegung durch Personen erkannt, wird der Abspielprozess gestoppt und das Latch Modul (KY002) schaltet den MP3 Player, das Verstärkermodul und den Radarsensor aus um Energie zu sparen. Der ESP32 geht danach in den DeepSleep Modus. Der PIR Bewgungssensor weckt die MCU im Bedarfsfall wieder auf.
 Der Radarsensor eigenet sich für diese Projekt insofern, als das dieser auch Personen erkennt, wenn diese sich nicht bewegen.  Ein Vorteil, den ein normaler PIR Bewegungssensor nicht hat. Dadurch bleibt der Abspielprozess bestehen wenn eine Person vor der InterAktivbox steht sich aber nicht bewegt.
 
 *Schaltungsaufbau: siehe Schaltplan.
