@@ -1,5 +1,7 @@
 # InterAktivBox
 ## Sensorgesteuerter Audioplayer 
+#### Vergleichbares Projekt:  https://echokammerinterventions.wordpress.com/
+#### (Hier eine Vesion mit Radar- und IR- Sensoren)
 
 ### Elektronische Bauteile
 
